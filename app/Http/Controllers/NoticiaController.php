@@ -17,6 +17,7 @@ class NoticiaController extends Controller
         $totalNews = Noticia::count();
         $news = Noticia::orderBy('fecha_publicacion', 'desc')->get();
 
+
         return view('noticias.index', compact('totalNews', 'news'));
     }
 

@@ -37,7 +37,6 @@
                     <i class="fas fa-newspaper w-5"></i>
                     <span class="ml-3">Noticias</span>
                 </a>
-                </a>
                 <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-xl transition-colors">
                     <i class="fas fa-user-graduate w-5"></i>
                     <span class="ml-3">Mi Perfil</span>
@@ -51,14 +50,10 @@
         <!-- Header con botón de acceso al dashboard y cerrar sesión -->
         <header class="bg-white shadow-sm p-4 flex justify-end items-center space-x-4">
             <!-- Botón que redirige al dashboard del admin -->
-            @if (auth()->user()->roles->pluck('name')->contains('admin') ||
-                                auth()->user()->roles->pluck('name')->contains('Docente'))
-                            <a href="/admin"
-                                class="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 transition duration-200">
-                                <i class="fas fa-tachometer-alt text-blue-600 mr-3"></i>
-                                <span>Dashboard</span>
-                            </a>
-                        @endif
+            <a href="/admin" class="flex items-center px-4 py-2 text-sm font-medium text-indigo-600 bg-indigo-100 rounded-xl hover:bg-indigo-200 transition-colors">
+                <i class="fas fa-user-shield mr-2"></i>
+                <span>{{ Auth::user()->name }}</span>
+            </a>
             <!-- Botón de cerrar sesión -->
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
