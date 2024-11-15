@@ -31,35 +31,27 @@
                     <a href="#" class="text-gray-300 hover:text-white transition-colors duration-200">Explorar</a>
                     <a href="#" class="text-gray-300 hover:text-white transition-colors duration-200">Comunidad</a>
                     <a href="#" class="text-gray-300 hover:text-white transition-colors duration-200">Recursos</a>
+                    
+                    <!-- Botón Admin Panel visible solo si el usuario tiene rol de Admin o Docente -->
+                    @if (auth()->user()->roles->pluck('name')->contains('Admin') || auth()->user()->roles->pluck('name')->contains('Docente'))
+                        <a href="/admin" class="group relative px-8 py-4 rounded-full transition-all duration-300"
+                           :class="view === 'ofertas' ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-800 hover:bg-gray-700'">
+                            <i class="fa-solid fa-circle-user"></i>
+                            <span>Admin Panel</span>
+                        </a>
+                    @endif
+                    
                     <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit"
-                                class="flex items-center w-full px-4 py-3 text-pink-700 hover:bg-pink-50 transition duration-200">
-                                <i class="fas fa-sign-out-alt text-pink-600 mr-3"></i>
-                                <span>Cerrar Sesión</span>
-                            </button>
-                        </form>
+                        @csrf
+                        <button type="submit" class="flex items-center w-full px-4 py-3 text-pink-700 hover:bg-pink-50 transition duration-200">
+                            <i class="fas fa-sign-out-alt text-pink-600 mr-3"></i>
+                            <span>Cerrar Sesión</span>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
     </nav>
-
-   <!-- Menu móvil -->
-<div x-show="mobileMenu" 
-     x-transition:enter="transition ease-out duration-200"
-     x-transition:enter-start="opacity-0 -translate-y-4"
-     x-transition:enter-end="opacity-100 translate-y-0"
-     class="lg:hidden fixed inset-0 z-40 bg-black/95">
-    <div class="flex flex-col items-center justify-center h-full space-y-8">
-        <a href="#" class="text-2xl text-gray-300 hover:text-white">Explorar</a>
-        <a href="#" class="text-2xl text-gray-300 hover:text-white">Comunidad</a>
-        <a href="#" class="text-2xl text-gray-300 hover:text-white">Cerrar Sesión</a>
-        <button @click="mobileMenu = false" class="absolute top-6 right-6 text-gray-300 hover:text-white">
-            <i class="fas fa-times text-2xl"></i>
-        </button>
-    </div>
-</div>
-
 
     <!-- Hero Section -->
     <div class="pt-32 pb-20 px-4 bg-gradient-to-b from-purple-900/20 to-transparent">
@@ -78,7 +70,6 @@
                         <i class="fas fa-newspaper"></i>
                         <span>Noticias</span>
                     </div>
-                    <div class="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
                 </button>
                 
                 <button @click="view = 'ofertas'"
@@ -88,17 +79,7 @@
                         <i class="fas fa-rocket"></i>
                         <span>Oportunidades</span>
                     </div>
-                    <div class="absolute inset-0 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
                 </button>
-                @if (auth()->user()->roles->pluck('name')->contains('Admin') ||
-                                auth()->user()->roles->pluck('name')->contains('Docente'))
-                            <a href="/admin"
-                            class="group relative px-8 py-4 rounded-full transition-all duration-300"
-                            :class="view === 'ofertas' ? 'bg-pink-600 hover:bg-pink-700' : 'bg-gray-800 hover:bg-gray-700'">
-                            <i class="fa-solid fa-circle-user"></i>
-                                <span>Admin Panel</span>
-                            </a>
-                        @endif
             </div>
         </div>
     </div>
@@ -114,99 +95,100 @@
                     <span>Filtrar</span>
                 </div>
             </div>
-            
+
             @foreach ($news as $newsItem)
-    <div class="group bg-gray-900 rounded-2xl p-1 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 transition-all duration-300">
-        <div class="bg-gray-900 rounded-2xl p-6 h-full">
-            <div class="flex flex-col md:flex-row gap-8">
-                <div class="w-full md:w-1/3">
-                    <div class="aspect-video overflow-hidden rounded-xl">
-                        @if (file_exists(public_path('storage/' . $newsItem->imagen)))
-                            <img src="{{ asset('storage/' . $newsItem->imagen) }}" alt="Imagen Noticia"
-                                class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300">
-                        @else
-                            <p>Imagen no disponible</p>
-                        @endif
-                    </div>
-                </div>
-                <div class="w-full md:w-2/3">
-                    <div class="flex items-center space-x-4 mb-4">
-                        <span class="px-3 py-1 bg-purple-500/10 text-purple-400 rounded-full text-sm">
-                            Noticia
-                        </span>
-                        <span class="text-gray-400 text-sm">
-                            <i class="far fa-clock mr-2"></i>
-                            {{ $newsItem->created_at->diffForHumans() }}
-                        </span>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-500 group-hover:to-pink-500">
-                        {{ $newsItem->titulo }}
-                    </h3>
-                    <p class="text-gray-400 mb-6">{!! Str::limit($newsItem->contenido, 150) !!}</p>
-                    <a href="{{ route('noticias.show', $newsItem->id) }}"
-                        class="inline-flex items-center text-purple-400 hover:text-purple-300 transition-colors">
-                        Leer más
-                        <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-2 transition-transform"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-@endforeach
-
-
-        <!-- Ofertas -->
-        <div x-show="view === 'ofertas'" class="space-y-12">
-            <div class="flex items-center justify-between mb-8">
-                <h2 class="text-3xl font-bold">Oportunidades Tech</h2>
-                <div class="flex items-center space-x-2 text-gray-400">
-                    <i class="fas fa-filter"></i>
-                    <span>Filtrar</span>
-                </div>
-            </div>
-            
-            @foreach ($jobs as $job)
-                <div class="group bg-gray-900 rounded-2xl p-1 hover:bg-gradient-to-r hover:from-pink-500 hover:to-purple-500 transition-all duration-300">
+                <div class="group bg-gray-900 rounded-2xl p-1 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 transition-all duration-300">
                     <div class="bg-gray-900 rounded-2xl p-6 h-full">
-                        <div class="flex items-start gap-6">
-                            <div class="w-16 h-16 rounded-xl bg-pink-500/10 flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-rocket text-2xl text-pink-400"></i>
+                        <div class="flex flex-col md:flex-row gap-8">
+                            <div class="w-full md:w-1/3">
+                                <div class="aspect-video overflow-hidden rounded-xl">
+                                    @if (file_exists(public_path('storage/' . $newsItem->imagen)))
+                                        <img src="{{ asset('storage/' . $newsItem->imagen) }}" alt="Imagen Noticia"
+                                            class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300">
+                                    @else
+                                        <p>Imagen no disponible</p>
+                                    @endif
+                                </div>
                             </div>
-                            <div class="flex-grow">
-                                <div class="flex items-center gap-4 mb-4 flex-wrap">
-                                    <span class="px-3 py-1 bg-pink-500/10 text-pink-400 rounded-full text-sm">
-                                        {{ $job->categoria }}
+                            <div class="w-full md:w-2/3">
+                                <div class="flex items-center space-x-4 mb-4">
+                                    <span class="px-3 py-1 bg-purple-500/10 text-purple-400 rounded-full text-sm">
+                                        Noticia
                                     </span>
                                     <span class="text-gray-400 text-sm">
-                                        <i class="far fa-building mr-2"></i>
-                                        {{ $job->empresa }}
-                                    </span>
-                                    <span class="text-gray-400 text-sm">
-                                        <i class="fas fa-map-marker-alt mr-2"></i>
-                                        {{ $job->ubicacion }}
+                                        <i class="far fa-clock mr-2"></i>
+                                        {{ $newsItem->created_at->diffForHumans() }}
                                     </span>
                                 </div>
-                                <h3 class="text-2xl font-bold mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-pink-500 group-hover:to-purple-500">
-                                    {{ $job->titulo }}
+                                <h3 class="text-2xl font-bold mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-500 group-hover:to-pink-500">
+                                    {{ $newsItem->titulo }}
                                 </h3>
-                                <p class="text-gray-400 mb-6">{{ Str::limit($job->descripcion, 150) }}</p>
-                                <div class="flex items-center gap-4">
-                                    <a href="{{ route('ofertas.show', $job->id) }}"
-                                        class="px-6 py-3 bg-pink-600 hover:bg-pink-700 rounded-full transition-colors">
-                                        Aplicar ahora
-                                    </a>
-                                    <button class="text-gray-400 hover:text-white transition-colors">
-                                        <i class="far fa-bookmark"></i>
-                                    </button>
-                                </div>
+                                <p class="text-gray-400 mb-6">{!! Str::limit($newsItem->contenido, 150) !!}</p>
+                                <a href="{{ route('noticias.show', $newsItem->id) }}"
+                                    class="inline-flex items-center text-purple-400 hover:text-purple-300 transition-colors">
+                                    Leer más
+                                    <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-2 transition-transform"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             @endforeach
         </div>
+
+        <!-- Ofertas -->
+        
+<div x-show="view === 'ofertas'" class="space-y-12">
+    <div class="flex items-center justify-between mb-8">
+        <h2 class="text-3xl font-bold">Oportunidades Tech</h2>
+        <div class="flex items-center space-x-2 text-gray-400">
+            <i class="fas fa-filter"></i>
+            <span>Filtrar</span>
+        </div>
     </div>
 
+    @if ($jobs->isEmpty())
+        <p class="text-gray-400">No hay oportunidades disponibles en este momento.</p>
+    @else
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @foreach ($jobs as $job)
+                <div class="group bg-gray-900 rounded-2xl p-6 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 transition-all duration-300">
+                    <div class="flex flex-col h-full">
+                        <div class="flex flex-col justify-between h-full">
+                            <div>
+                                <div class="mb-4">
+                                    <span class="px-3 py-1 bg-pink-500/10 text-pink-400 rounded-full text-sm">
+                                        Oportunidad
+                                    </span>
+                                </div>
+                                <h3 class="text-2xl font-bold mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-500 group-hover:to-pink-500">
+                                    {{ $job->titulo }}
+                                </h3>
+                                <p class="text-gray-400 mb-6">{!! Str::limit($job->descripcion, 150) !!}</p>
+                            </div>
+
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400 text-sm">
+                                    <i class="far fa-clock mr-2"></i>
+                                    {{ $job->created_at->diffForHumans() }}
+                                </span>
+                                <a href="{{ route('ofertas.show', $job->id) }}"
+                                    class="inline-flex items-center text-pink-400 hover:text-pink-300 transition-colors">
+                                    Ver más
+                                    <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-2 transition-transform"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    @endif
+</div>
+
+
+
+       
     <!-- Footer -->
     <footer class="bg-gray-900 mt-20">
         <div class="max-w-7xl mx-auto px-4 py-12">
