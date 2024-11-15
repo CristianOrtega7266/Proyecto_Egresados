@@ -6,6 +6,7 @@ use App\Filament\Resources\NoticiaResource\Pages;
 use App\Models\Noticia;
 use App\Models\User; // Importa el modelo de usuario
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
@@ -49,10 +50,9 @@ class NoticiaResource extends Resource
                             })
                             ->placeholder('Selecciona o busca un autor'),
 
-                        TextInput::make('imagen')
-                            ->label('URL de la Imagen')
-                            ->url()
-                            ->placeholder('https://ejemplo.com/imagen.jpg'),
+                        Forms\Components\FileUpload::make('imagen')
+                            ->image()
+                            ->imageEditor()
                     ])
                     ->columns(1), // Una columna para estos campos para mantenerlo organizado
 

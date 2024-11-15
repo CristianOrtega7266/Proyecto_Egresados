@@ -34,16 +34,11 @@
                     <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit"
-                                class="flex items-center w-full px-4 py-3 text-gray-700 hover:bg-blue-50 transition duration-200">
-                                <i class="fas fa-sign-out-alt text-blue-600 mr-3"></i>
+                                class="flex items-center w-full px-4 py-3 text-pink-700 hover:bg-pink-50 transition duration-200">
+                                <i class="fas fa-sign-out-alt text-pink-600 mr-3"></i>
                                 <span>Cerrar Sesión</span>
                             </button>
                         </form>
-                    @if (auth()->user()->roles->pluck('name')->contains('Admin'))
-                        <a href="/admin" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-full transition-colors duration-200">
-                            Panel Admin
-                        </a>
-                    @endif
                 </div>
             </div>
         </div>
@@ -81,7 +76,7 @@
                     :class="view === 'noticias' ? 'bg-purple-600 hover:bg-purple-700' : 'bg-gray-800 hover:bg-gray-700'">
                     <div class="flex items-center space-x-2">
                         <i class="fas fa-newspaper"></i>
-                        <span>Innovaciones</span>
+                        <span>Noticias</span>
                     </div>
                     <div class="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
                 </button>
@@ -113,7 +108,7 @@
         <!-- Noticias -->
         <div x-show="view === 'noticias'" class="space-y-12">
             <div class="flex items-center justify-between mb-8">
-                <h2 class="text-3xl font-bold">Últimas Innovaciones</h2>
+                <h2 class="text-3xl font-bold">Últimas Noticias</h2>
                 <div class="flex items-center space-x-2 text-gray-400">
                     <i class="fas fa-filter"></i>
                     <span>Filtrar</span>
