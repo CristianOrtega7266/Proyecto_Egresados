@@ -65,9 +65,9 @@
     <div class="pt-32 pb-20 px-4 bg-gradient-to-b from-purple-900/20 to-transparent">
         <div class="max-w-7xl mx-auto text-center">
             <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500">
-                Descubre el Futuro de la Tecnología
+                Descubre Algo Nuevo Todos Los Dias
             </h1>
-            <p class="text-xl text-gray-400 mb-12">Explora las últimas innovaciones y oportunidades en el mundo tech</p>
+            <p class="text-xl text-gray-400 mb-12">Explora las últimas Noticias y oportunidades en el mundo tech</p>
             
             <!-- Botones de navegación -->
             <div class="flex flex-wrap justify-center gap-4">
@@ -116,40 +116,44 @@
             </div>
             
             @foreach ($news as $newsItem)
-                <div class="group bg-gray-900 rounded-2xl p-1 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 transition-all duration-300">
-                    <div class="bg-gray-900 rounded-2xl p-6 h-full">
-                        <div class="flex flex-col md:flex-row gap-8">
-                            <div class="w-full md:w-1/3">
-                                <div class="aspect-video overflow-hidden rounded-xl">
-                                    <img src="{{ $newsItem->imagen }}" alt="Imagen Noticia"
-                                        class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300">
-                                </div>
-                            </div>
-                            <div class="w-full md:w-2/3">
-                                <div class="flex items-center space-x-4 mb-4">
-                                    <span class="px-3 py-1 bg-purple-500/10 text-purple-400 rounded-full text-sm">
-                                        Innovación
-                                    </span>
-                                    <span class="text-gray-400 text-sm">
-                                        <i class="far fa-clock mr-2"></i>
-                                        {{ $newsItem->created_at->diffForHumans() }}
-                                    </span>
-                                </div>
-                                <h3 class="text-2xl font-bold mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-500 group-hover:to-pink-500">
-                                    {{ $newsItem->titulo }}
-                                </h3>
-                                <p class="text-gray-400 mb-6">{{ Str::limit($newsItem->contenido, 150) }}</p>
-                                <a href="{{ route('noticias.show', $newsItem->id) }}"
-                                    class="inline-flex items-center text-purple-400 hover:text-purple-300 transition-colors">
-                                    Leer más
-                                    <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-2 transition-transform"></i>
-                                </a>
-                            </div>
-                        </div>
+    <div class="group bg-gray-900 rounded-2xl p-1 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 transition-all duration-300">
+        <div class="bg-gray-900 rounded-2xl p-6 h-full">
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="w-full md:w-1/3">
+                    <div class="aspect-video overflow-hidden rounded-xl">
+                        @if (file_exists(public_path('storage/' . $newsItem->imagen)))
+                            <img src="{{ asset('storage/' . $newsItem->imagen) }}" alt="Imagen Noticia"
+                                class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300">
+                        @else
+                            <p>Imagen no disponible</p>
+                        @endif
                     </div>
                 </div>
-            @endforeach
+                <div class="w-full md:w-2/3">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <span class="px-3 py-1 bg-purple-500/10 text-purple-400 rounded-full text-sm">
+                            Noticia
+                        </span>
+                        <span class="text-gray-400 text-sm">
+                            <i class="far fa-clock mr-2"></i>
+                            {{ $newsItem->created_at->diffForHumans() }}
+                        </span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-500 group-hover:to-pink-500">
+                        {{ $newsItem->titulo }}
+                    </h3>
+                    <p class="text-gray-400 mb-6">{!! Str::limit($newsItem->contenido, 150) !!}</p>
+                    <a href="{{ route('noticias.show', $newsItem->id) }}"
+                        class="inline-flex items-center text-purple-400 hover:text-purple-300 transition-colors">
+                        Leer más
+                        <i class="fas fa-arrow-right ml-2 transform group-hover:translate-x-2 transition-transform"></i>
+                    </a>
+                </div>
+            </div>
         </div>
+    </div>
+@endforeach
+
 
         <!-- Ofertas -->
         <div x-show="view === 'ofertas'" class="space-y-12">
@@ -211,7 +215,7 @@
                     <div class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500 mb-4">
                         TechHub
                     </div>
-                    <p class="text-gray-400">Construyendo el futuro de la tecnología</p>
+                    <p class="text-gray-400">Construyendo un mejor futuro</p>
                 </div>
                 <div>
                     <h3 class="text-xl font-bold mb-4">Navegación</h3>

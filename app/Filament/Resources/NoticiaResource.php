@@ -52,7 +52,9 @@ class NoticiaResource extends Resource
 
                         Forms\Components\FileUpload::make('imagen')
                             ->image()
+                            ->directory('storage')
                             ->imageEditor()
+                            ->visibility('public')
                     ])
                     ->columns(1), // Una columna para estos campos para mantenerlo organizado
 
