@@ -72,7 +72,7 @@
 
         <!-- Botones de acción -->
         <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <a href="{{ route('home') }}" 
+            <a href="{{ route('dashboard') }}" 
                class="group inline-flex items-center px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-full transition-all duration-300">
                 <i class="fas fa-arrow-left mr-2 transform group-hover:-translate-x-1 transition-transform"></i>
                 Volver a las ofertas

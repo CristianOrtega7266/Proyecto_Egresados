@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
 
         // Crear el usuario si no existe
         $user = User::firstOrCreate(
-            ['email' => 'admin@example.com'],
+            ['email' => 'admin@umariana.edu.co'],
             [
                 'name' => 'admin',
                 'email_verified_at' => now(),

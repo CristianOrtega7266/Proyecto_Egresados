@@ -53,7 +53,7 @@
 
         <!-- Botón de regreso -->
         <div class="flex justify-start">
-            <a href="/home" 
+            <a href="/dashboard" 
                class="group inline-flex items-center px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-full transition-all duration-300">
                 <i class="fas fa-arrow-left mr-2 transform group-hover:-translate-x-1 transition-transform"></i>
                 Volver a las noticias
